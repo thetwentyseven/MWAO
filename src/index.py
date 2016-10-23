@@ -86,6 +86,10 @@ def contact():
 def insert():
    return render_template('insert.html')
 
+@app.route('/edit')
+def edit():
+    return render_template('edit.html')
+
 @app.route('/insert_value',methods = ['POST', 'GET'])
 def insert_value():
     g.db = sqlite3.connect(db_location)
@@ -105,7 +109,14 @@ def insert_value():
     g.db.commit()
     return redirect(url_for('objects'))
 
-
+@app.route('/update/<int:id>', methods=['GET', 'POST'])
+def update(id):
+    g.db = sqlite3.connect(db_location)
+    query = 'UPDATE milkyway SET type = ?, name = ?, description = ?, size = ?, mass = ?, distance = ?, discoverer = ?, image_url = ? WHERE id = ?'
+    cur = g.db.cursor()
+    cur.execute(query, [ request.form['type'], request.form['name'],request.form['description'], request.form['size'], request.form['mass'],request.form['distance'],request.form['discoverer'], request.form['image_url'], id])
+    g.db.commit()
+    return redirect(url_for('object', id=id))
 
 @app.route('/objects')
 def objects():
@@ -119,27 +130,14 @@ def objects():
 @app.route('/object/<int:id>', methods=['GET', 'POST'])
 def object(id):
     if session.get('logged'):
-        if request.method == 'POST':
-            db = sqlite3.connect(db_location)
-            query = 'UPDATE milkyway SET type = ?, name = ?, description = ?, size = ?, mass = ?, distance = ?, discoverer = ?, image_url = ? WHERE id = ?'
-            cur = db.cursor()
-            cur.execute(query, [ request.form['type'], request.form['name'],request.form['description'],request.form['size'], request.form['mass'],request.form['distance'],request.form['discoverer'], request.form['image_url'], id])
-            g.db.commit()
-            return redirect(url_for('edit', id=id))
-        else:
-            object_id = get_object(id)
-            if object_id:
-                return render_template('edit.html', object_id=object_id)
+        object_id = get_object(id)
+        if object_id:
+            return render_template('edit.html', object_id=object_id)
     else:
         object_id = get_object(id)
         if object_id:
             return render_template('object.html', object_id=object_id)
-        else:
-            return redirect(url_for('object'))
 
-@app.route('/edit')
-def edit():
-    return render_template('edit.html')
 
 
 # Configuration
