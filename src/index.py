@@ -1,11 +1,15 @@
 import ConfigParser
 import logging
 import sqlite3
+import pprint
 
 from logging.handlers import RotatingFileHandler
-from flask import Flask, render_template, url_for, g
+from flask import Flask, request, session, g, redirect, url_for, abort, \
+     render_template, flash
+
 
 app = Flask(__name__)
+app.secret_key = "super secret key"
 
 # Database
 db_location = 'database/sqlite3.db'
@@ -31,32 +35,111 @@ def init_db():
     db.commit()
 
 
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = [dict((cur.description[idx][0], value)
+               for idx, value in enumerate(row)) for row in cur.fetchall()]
+    return (rv[0] if rv else None) if one else rv
+
+# Functions
+def get_object(id):
+    query = 'SELECT * FROM milkyway WHERE id = ?'
+    object_id = query_db(query, [id], one=True)
+    return object_id
+
+
+
 # Routes
 @app.route('/')
 def root():
-    this_route = url_for('.root')
-    app.logger.info("Logging a test message from "+this_route)
+    return render_template('home.html')
 
-    return render_template('base.html'), 200
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['username'] != app.config['username']:
+            error = 'Invalid username'
+        elif request.form['password'] != app.config['password']:
+            error = 'Invalid password'
+        else:
+            session['logged'] = True
+            return redirect(url_for('root'))
+    return render_template('login.html', error=error)
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logged', None)
+    flash('You were logged out')
+    return redirect(url_for('root'))
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html')
+
+@app.route('/insert')
+def insert():
+   return render_template('insert.html')
+
+@app.route('/insert_value',methods = ['POST', 'GET'])
+def insert_value():
+    g.db = sqlite3.connect(db_location)
+
+    atype = request.form['type']
+    name = request.form['name']
+    description = request.form['description']
+    size = request.form['size']
+    mass = request.form['mass']
+    distance = request.form['distance']
+    discoverer = request.form['discoverer']
+    image_url = request.form['image_url']
+
+    g.db.execute('INSERT INTO milkyway (type,name,description,size,mass,distance,discoverer,image_url) VALUES (?,?,?,?,?,?,?,?)',
+    [atype, name, description, size, mass, distance, discoverer, image_url] )
+
+    g.db.commit()
+    return redirect(url_for('objects'))
+
 
 
 @app.route('/objects')
 def objects():
-    db = get_db()
-    db.cursor().execute('insert into milkyway values (NULL, "Planet", "Earth", "Our planet", 6.371, 1, 0, "Unknown", "uploads/earth.png" )')
-    db.commit()
+    db = sqlite3.connect(db_location)
+    query = db.execute('SELECT * FROM milkyway ORDER BY type')
+    objects = [dict(id=row[0], type=row[1], name=row[2], description=row[3], size=row[4], mass=row[5],distance=row[6], discoverer=row[7], image_url=row[8]) for row in query.fetchall()]
+    db.close()
+    return render_template("objects.html",objects=objects)
 
-    page = []
-    page.append('<html><ul>')
-    sql = "SELECT * FROM milkyway ORDER BY type"
-    for row in db.cursor().execute(sql):
-        page.append('<li>')
-        page.append(str(row))
-        page.append('</li>')
+@app.route('/object')
+@app.route('/object/<int:id>', methods=['GET', 'POST'])
+def object(id):
+    if session.get('logged'):
+        if request.method == 'POST':
+            db = sqlite3.connect(db_location)
+            query = 'UPDATE milkyway SET type = ?, name = ?, description = ?, size = ?, mass = ?, distance = ?, discoverer = ?, image_url = ? WHERE id = ?'
+            cur = db.cursor()
+            cur.execute(query, [ request.form['type'], request.form['name'],request.form['description'],request.form['size'], request.form['mass'],request.form['distance'],request.form['discoverer'], request.form['image_url'], id])
+            g.db.commit()
+            return redirect(url_for('edit', id=id))
+        else:
+            object_id = get_object(id)
+            if object_id:
+                return render_template('edit.html', object_id=object_id)
+    else:
+        object_id = get_object(id)
+        if object_id:
+            return render_template('object.html', object_id=object_id)
+        else:
+            return redirect(url_for('object'))
 
-    page.append('</ul></html>')
-
-    return ''.join(page)
+@app.route('/edit')
+def edit():
+    return render_template('edit.html')
 
 
 # Configuration
@@ -73,6 +156,10 @@ def init(app):
       app.config['log_file'] = config.get("logging", "name")
       app.config['log_location'] = config.get("logging", "location")
       app.config['log_level'] = config.get("logging", "level")
+      app.config['username'] = config.get("user", "username")
+      app.config['password'] = config.get("user", "password")
+      app.config['secret_key'] = config.get("user", "secret_key")
+
   except:
       print "Could not read configs from: ", config_location
 

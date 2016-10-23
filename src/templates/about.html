@@ -1,0 +1,20 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container breadcrumb-block">
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('root') }}">Home</a></li>
+    <li class="active"><a href="{{ url_for('about') }}">About</a></li>
+  </ol>
+</div>
+
+<div class="container">
+  <h1>About us</h1>
+  <h2>Introduction</h2>
+  <p class="lead">
+    This is a website created by Adrian Vazquez for the Napier University,
+    Edinburgh, Scotland. It is created with a Levinux server, python, bootstrap
+    (HTML+CSS+JavaScript) and SQLite3 database.
+  </p>
+</div>
+{% endblock %}}

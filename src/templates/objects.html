@@ -1,0 +1,61 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container breadcrumb-block">
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('root') }}">Home</a></li>
+    <li class="active"><a href="{{ url_for('objects') }}">Objects</a></li>
+  </ol>
+</div>
+
+<div class="container">
+  <h1>Here is the list with all the objects by type</h1>
+  <h2>With a subtitle</h2>
+
+  <p>
+    Insert a new value <a href="{{ url_for('insert') }}">here</a>
+  </p>
+
+  {% if objects %}
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Type</th>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Size</th>
+          <th>Mass</th>
+          <th>distance</th>
+          <th>Discoverer</th>
+          <th>Image</th>
+        </tr>
+      </thead>
+      <tbody>
+
+    {% for object in objects %}
+
+        <tr class="object" onclick="window.document.location='{{ url_for('object', id=object.id) }}';">
+          <td>{{ object.id }}</td>
+          <td>{{ object.type }}</td>
+          <td>{{ object.name }}</td>
+          <td>{{ object.description }}</td>
+          <td>{{ object.size }}</td>
+          <td>{{ object.mass }}</td>
+          <td>{{ object.distance }}</td>
+          <td>{{ object.discoverer }}</td>
+          <td><img src="{{ url_for('static', filename=object.image_url) }}" alt="{{ object.name }}" style="width:150px;height:150px;"></td>
+        </tr>
+
+    {% endfor %}
+    </tbody>
+  </table>
+
+  {% else %}
+
+    <p>No objects found.</p>
+
+  {% endif %}
+</div>
+
+{% endblock %}

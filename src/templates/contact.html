@@ -1,0 +1,16 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container breadcrumb-block">
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('root') }}">Home</a></li>
+    <li class="active"><a href="{{ url_for('contact') }}">Contact</a></li>
+  </ol>
+</div>
+
+<div class="container">
+  <h1>This is the contact form</h1>
+  <h2>Please send us a email and we will respond shortly</h2>
+  <p class="lead">More info:</p>
+</div>
+{% endblock %}}

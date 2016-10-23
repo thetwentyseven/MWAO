@@ -1,0 +1,70 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container breadcrumb-block">
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('root') }}">Home</a></li>
+    <li><a href="{{ url_for('objects') }}">Objects</a></li>
+    <li class="active"><a href="{{ url_for('insert') }}">Insert</a></li>
+  </ol>
+</div>
+
+<div class="container">
+  <h1>The form to insert a new object</h1>
+  <h2>With a subtitle</h2>
+
+  {% if msg %}
+  <div class="alert alert-info">
+    <strong>Info!</strong> Result of addition : {{ msg }}
+  </div>
+  {% endif %}
+
+  <form action = "{{ url_for('insert_value') }}" method = "POST">
+         <h3>New  object</h3>
+
+         <div class="form-group">
+           <label for="type">Type:</label>
+           <input type="text" name="type" class="form-control" placeholder="Planet, Star, Black hole.." /></br>
+         </div>
+
+         <div class="form-group">
+           <label for="name">Name:</label>
+           <input type="text" name="name" class="form-control" placeholder="Earth, Mars, O12329.." /></br>
+         </div>
+
+         <div class="form-group">
+           <label for="description">Description:</label>
+           <textarea class="form-control" rows="5" name="description" ></textarea>
+         </div>
+
+         <div class="form-group">
+           <label for="size">Size:</label>
+           <input type="text" name="size" class="form-control" placeholder="KMs" /></br>
+         </div>
+
+         <div class="form-group">
+           <label for="mass">Mass:</label>
+           <input type="text" name="mass" class="form-control" placeholder="Compare to Earth - 1" /></br>
+         </div>
+
+         <div class="form-group">
+           <label for="distance">Distance:</label>
+           <input type="text" name="distance" class="form-control" placeholder="Average distance from Earth" /></br>
+         </div>
+
+         <div class="form-group">
+           <label for="discoverer">Discoverer:</label>
+           <input type="text" name="discoverer" class="form-control" placeholder="Earth, Mars, O12329.." /></br>
+         </div>
+
+         <div class="form-group">
+           <label for="image_url">Image url:</label>
+           <input type="text" name="image_url" class="form-control" placeholder="Path to the URL" /></br>
+         </div>
+
+         <button type="submit" value="submit" class="btn btn-default">Submit</button>
+      </form>
+
+</div>
+
+{% endblock %}
