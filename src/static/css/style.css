@@ -4,14 +4,100 @@
 font-family: 'Righteous', cursive;
 font-family: 'Lato', sans-serif;
 */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body{
   font-family: 'Lato', sans-serif;
-  padding: 50px 50px;
+  padding: 50px 0px;
 }
+
+.full-background{
+  background-image: url('../uploads/milkyway.jpg');
+  color:white;
+}
+
+a {
+    color: #121840;
+  }
 
 .navbar-brand{
   font-family: 'Righteous', cursive;
 }
+
+.container-full {
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Layout - Sidebar */
+
+.list-group {
+    float: left;
+    width: 15%;
+    margin: 1em;
+}
+
+table.table.table-striped {
+    float: right;
+    width: 80%;
+}
+
+p.no-object {
+    padding: 2em 16em;
+}
+
+.description {
+    min-height: 32em;
+    padding: 1em 0em;
+}
+
+.details {
+    border-top: 2px solid #121840;
+    border-bottom: 2px solid #121840;
+    padding: 2em 0em;
+    min-height: 20em;
+}
+
+.knobs{
+
+}
+
+.object-description {
+    min-height: 27em;
+    padding: 1em 0em;
+}
+
+
+/* Admin panel */
+.admin-panel > ol {
+    list-style-type: none;
+    margin: 0;
+    padding-left: 90px;
+    overflow: hidden;
+    background-color: #333;
+}
+
+.admin-panel ol li {
+    float: left;
+}
+
+.admin-panel ol li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+.admin-panel ol li a:hover {
+    background-color: #111;
+}
+
+
 
 /* Navigation bar */
 .navbar-inverse {
@@ -31,14 +117,21 @@ body{
 
 .breadcrumb{
   background-color: #ffffff;
+  margin-bottom: 0px;
 }
 
 .object:hover{
   cursor:pointer;
-  background: #ababab !important;
+  background: #121840 !important;
+  color: white;
 }
 
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover{
+  background-color: #121840;
+  border-color: #121840;
+}
 
+/* Form login */
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -72,4 +165,15 @@ body{
   margin-bottom: 10px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+}
+
+
+/* Footer */
+footer {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  text-align: center;
 }

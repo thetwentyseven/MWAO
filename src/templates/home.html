@@ -1,15 +1,77 @@
-{% extends "header.html" %}
+<html>
+<head>
+  <title>Milky Way Astronomical Objects (MWAO)</title>
+  <link href="{{ url_for('static', filename='css/bootstrap.min.css')  }}" rel="stylesheet" />
+  <link href="{{ url_for('static', filename='css/style.css')  }}" rel="stylesheet" />
+</head>
 
-{% block content %}
-<div class="container breadcrumb-block">
-  <ol class="breadcrumb">
-    <li class="active"><a href="{{ url_for('root') }}">Home</a></li>
+<body class="full-background">
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+      data-toggle="collapse" data-target="#navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ url_for('root') }}">Milky Way Astronomical Objects (MWAO)</a>
+    </div>
+
+    <div id="navbar" class="collapse navbar-collapse navbar-right">
+      <ul class="nav navbar-nav">
+        <li><a href="{{ url_for('objects') }}">Objects</a></li>
+        <li><a href="{{ url_for('about') }}">About</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+            <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            {% if session.logged %}
+            <li><a href="{{ url_for('logout') }}">Log out</a></li>
+            {% else %}
+            <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+  </nav>
+
+{% if session.logged %}
+<div class="container-full admin-panel">
+  <ol>
+    <li><a href="{{ url_for('insert') }}">Insert object</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
   </ol>
+</div>
+{% endif %}
+
+<div class="container">
+  <h1>Milky Way Astronomical Objects (MWAO)</h1>
+  <h2>A small collection of our galaxy objects</h2>
+  <p class="lead">
+    This is a website created by Adrian Vazquez for the Napier University, Edinburgh, Scotland.
+    It is created with a Levinux server, python, bootstrap (HTML+CSS+JavaScript) and SQLite3 database.
+  </p>
 </div>
 
 <div class="container">
-  <h1>Title stored in the base template</h1>
-  <h2>With a subtitle</h2>
-  <p class="lead">Demostrating a flask app with bootstrap</p>
+  <footer>
+    <div class="row">
+        <div class="col-lg-12">
+            <p>Copyright &copy; Milky Way Astronomical Objects (MWAO) 2016</p>
+        </div>
+    </div>
+  </footer>
 </div>
-{% endblock %}}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js')  }}"></script>
+</body>
+</html>

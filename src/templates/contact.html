@@ -1,6 +1,16 @@
 {% extends "header.html" %}
 
 {% block content %}
+
+{% if session.logged %}
+<div class="container-full admin-panel">
+  <ol>
+    <li><a href="{{ url_for('insert') }}">Insert object</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  </ol>
+</div>
+{% endif %}
+
 <div class="container breadcrumb-block">
   <ol class="breadcrumb">
     <li><a href="{{ url_for('root') }}">Home</a></li>
@@ -11,6 +21,27 @@
 <div class="container">
   <h1>This is the contact form</h1>
   <h2>Please send us a email and we will respond shortly</h2>
-  <p class="lead">More info:</p>
+  <p>
+    Lorem ipsum dolor sit amet, per in epicuri noluisse, per graeci persequeris
+    contentiones ex. Praesent instructior ius et, ut eos euismod singulis, te mel unum soleat
+    theophrastus. At illud labores nec, errem eligendi pri et. Mei et illud salutatus ullamcorper,
+    rebum legendos definitiones an eos. Eu bonorum pericula usu, ex eius libris mei. Elitr graecis
+    disputando eu usu, mei no nominati vulputate suscipiantur, et vim velit eligendi pericula.</p>
+
+  <p>
+    Lorem ipsum dolor sit amet, per in epicuri noluisse, per graeci persequeris
+    contentiones ex. Praesent instructior ius et, ut eos euismod singulis, te mel unum soleat
+    theophrastus. At illud labores nec, errem eligendi pri et. Mei et illud salutatus ullamcorper,
+    rebum legendos definitiones an eos. Eu bonorum pericula usu, ex eius libris mei. Elitr graecis
+    disputando eu usu, mei no nominati vulputate suscipiantur, et vim velit eligendi pericula.
+  </p>
+
+  <p>
+    Lorem ipsum dolor sit amet, per in epicuri noluisse, per graeci persequeris
+    contentiones ex. Praesent instructior ius et, ut eos euismod singulis, te mel unum soleat
+    theophrastus. At illud labores nec, errem eligendi pri et. Mei et illud salutatus ullamcorper,
+    rebum legendos definitiones an eos. Eu bonorum pericula usu, ex eius libris mei. Elitr graecis
+    disputando eu usu, mei no nominati vulputate suscipiantur, et vim velit eligendi pericula.
+  </p>
 </div>
 {% endblock %}}

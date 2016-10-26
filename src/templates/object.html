@@ -1,53 +1,98 @@
 {% extends "header.html" %}
 
 {% block content %}
+{% if session.logged %}
+<div class="container-full admin-panel">
+  <ol>
+    <li><a href="{{ url_for('insert') }}">Insert object</a></li>
+    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  </ol>
+</div>
+{% endif %}
+
 <div class="container breadcrumb-block">
   <ol class="breadcrumb">
     <li><a href="{{ url_for('root') }}">Home</a></li>
     <li><a href="{{ url_for('objects') }}">Objects</a></li>
-    <li class="active"><a href="{{ url_for('object') }}">Object</a></li>
+    <li><a href="{{ url_for('category', category=object_id.type) }}">Category</a></li>
+    <li class="active"><a href="{{ url_for('object') }}">{{ object_id.name }}</a></li>
   </ol>
 </div>
 
 <div class="container">
-  <h1>Single Object</h1>
-  <h2>With a subtitle</h2>
 
-  <p>
-    Insert a new value <a href="{{ url_for('insert') }}">here</a>
-  </p>
+  <div class="list-group">
+    <a href="{{ url_for('objects') }}" class="list-group-item">All</a>
+    <a href="{{ url_for('category', category='SolarSystem') }}" class="list-group-item">Solar systems</a>
+    <a href="{{ url_for('category', category='Planet') }}" class="list-group-item">Planets</a>
+    <a href="{{ url_for('category', category='Satellite') }}" class="list-group-item">Satellites</a>
+    <a href="{{ url_for('category', category='Asteroid') }}" class="list-group-item">Asteroids</a>
+    <a href="{{ url_for('category', category='Comet') }}" class="list-group-item">Comets</a>
+    <a href="{{ url_for('category', category='Star') }}" class="list-group-item">Stars</a>
+    <a href="{{ url_for('category', category='Blackhole') }}" class="list-group-item">Black holes</a>
+    <a href="{{ url_for('category', category='Constellation') }}" class="list-group-item">Constellations</a>
+    <a href="{{ url_for('category', category='Nebula') }}" class="list-group-item">Nebulas</a>
+    <a href="{{ url_for('category', category='Starcluster') }}" class="list-group-item">Star clusters</a>
+  </div>
 
   {% if object_id %}
-  <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Type</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Size</th>
-          <th>Mass</th>
-          <th>distance</th>
-          <th>Discoverer</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
 
-        <tr>
-          <td>{{ object_id.id }}</td>
-          <td>{{ object_id.type }}</td>
-          <td>{{ object_id.name }}</td>
-          <td>{{ object_id.description }}</td>
-          <td>{{ object_id.size }}</td>
-          <td>{{ object_id.mass }}</td>
-          <td>{{ object_id.distance }}</td>
-          <td>{{ object_id.discoverer }}</td>
-          <td><img src="{{ url_for('static', filename=object_id.image_url) }}" alt="{{ object_id.name }}" style="width:150px;height:150px;"></td>
-        </tr>
+  <div class="object-description">
+    <div class="picture col-md-4">
+      <img src="{{ url_for('static', filename=object_id.image_url) }}" alt="{{ object_id.name }}" style="width:100%;">
+    </div>
 
-    </tbody>
-  </table>
+    <div class="type col-md-4">
+      <label>Type</label>
+      <p>
+        {{ object_id.type }}
+      </p>
+    </div>
+
+    <div class="name col-md-4">
+      <label>Name</label>
+      <p>
+        {{ object_id.name }}
+      </p>
+    </div>
+
+    <div class="col-md-4">
+      <label>Description</label>
+      <p>
+        {{ object_id.description }}
+      </p>
+    </div>
+  </div>
+
+  <div class="object-details">
+    <div class="size col-md-2">
+      <label>Size</label>
+      <p>
+        {{ object_id.size }}
+      </p>
+    </div>
+
+    <div class="size col-md-2">
+      <label>Mass</label>
+      <p>
+        {{ object_id.mass }}
+      </p>
+    </div>
+
+    <div class="size col-md-2">
+      <label>Distance</label>
+      <p>
+        {{ object_id.distance }}
+      </p>
+    </div>
+
+    <div class="size col-md-2">
+      <label>Discoverer</label>
+      <p>
+        {{ object_id.discoverer }}
+      </p>
+    </div>
+  </div>
 
   {% else %}
 

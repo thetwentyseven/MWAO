@@ -1,0 +1,18 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container breadcrumb-block">
+  <ol class="breadcrumb">
+    <li><a href="{{ url_for('root') }}">Home</a></li>
+  </ol>
+</div>
+
+<div class="container">
+  <h1>Sorry!</h1>
+  <h2>You do not have permision to access this page!</h2>
+  <p class="lead">
+    Please login if you have the credentials <a href="{{ url_for('login') }}">here</a>. Otherwise comeback
+    to the <a href="{{ url_for('root') }}">homepage</a>.
+  </p>
+</div>
+{% endblock %}}
