@@ -17,3 +17,21 @@ It contains a database of astronomical objects inside our galaxy (Milky Way). Co
 * Constellations
 * Nebulas
 * Star clusters
+
+## Please in order to login use the next credentials:
+
+user: admin
+password: secret
+
+## The paths available are:
+
+/
+/login
+/logout
+/contact
+/about
+/objects
+/objects/<category>
+/objects/<category>/<id>
+/objects/<category>/<id>/edit (update/delete)
+/objects/insert
